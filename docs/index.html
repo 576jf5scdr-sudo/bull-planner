@@ -15,14 +15,19 @@
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="preload" href="fonts/outfit-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/app.css?v=8">
+<link rel="stylesheet" href="css/app.css?v=9">
 </head>
 <body>
 <main class="wrap">
-  <section class="hero" id="hero" data-state="idle">
+  <section class="hero" id="hero" data-state="idle" data-pose="rest">
     <div class="h-bg" aria-hidden="true"><div class="rays"></div><div class="aura"></div><div class="stars" id="stars"></div></div>
     <div class="bull" aria-hidden="true">
-      <img src="img/bull-laptop.jpg" alt="">
+      <div class="pose rest">
+        <img class="rest-poster" src="img/bull-rest.jpg" alt="">
+        <video class="rest-loop" muted autoplay loop playsinline webkit-playsinline poster="img/bull-rest.jpg" preload="auto" disablepictureinpicture><source src="img/bull.mp4" type="video/mp4"><source src="img/bull.webm" type="video/webm"></video>
+        <div class="steam"><i></i><i></i><i></i></div>
+      </div>
+      <img class="pose work" src="img/bull-laptop.jpg" alt="">
       <div class="lid"></div>
       <div class="sparks"><i></i><i></i><i></i><i></i><i></i></div>
     </div>
@@ -33,7 +38,7 @@
         <svg class="candles" viewBox="0 0 100 40" preserveAspectRatio="none"><g></g></svg>
         <div class="code"><div class="code-in" id="code"></div></div>
       </div>
-      <div class="status" id="status">ready · paste a token</div>
+      <div class="status" id="status">resting · paste a token</div>
       <div class="prog"><i></i></div>
     </div>
     <div class="burst" aria-hidden="true"></div>
@@ -51,6 +56,6 @@
   <section id="out"></section>
   <p class="foot">Not financial advice. Data: DexScreener, RugCheck.</p>
 </main>
-<script src="js/app.js?v=8"></script>
+<script src="js/app.js?v=9"></script>
 </body>
 </html>

@@ -161,3 +161,25 @@ h2{margin:0 0 8px;font-size:17px}
   .h-top b{font-size:22px}
 }
 @media (max-width:600px) and (max-height:700px){.bull{width:62%}}
+
+/* ---------- two poses: resting (coffee) / working (typing) ---------- */
+.bull .pose{position:absolute;inset:0;width:100%;height:100%;transition:opacity .3s ease;-webkit-mask:radial-gradient(circle at 50% 52%,#000 56%,transparent 71%);mask:radial-gradient(circle at 50% 52%,#000 56%,transparent 71%)}
+.bull .rest img,.bull .rest video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000;-webkit-mask:none;mask:none;animation:none}
+.bull .rest-poster{z-index:0}.bull .rest-loop{z-index:1}
+.bull img.work{object-fit:cover;opacity:0}
+.hero[data-pose="work"] .bull .rest{opacity:0}
+.hero[data-pose="work"] .bull img.work{opacity:1}
+.bull img.work{animation:nod 5.5s ease-in-out infinite;transform-origin:50% 70%}
+.steam{position:absolute;left:38%;top:36%;width:12%;height:14%;pointer-events:none;z-index:2}
+.steam i{position:absolute;bottom:0;left:30%;width:28%;height:60%;border-radius:50%;background:radial-gradient(ellipse,rgba(255,240,225,.55),transparent 70%);filter:blur(1.5px);opacity:0;animation:steam 2.8s ease-out infinite}
+.steam i:nth-child(2){left:5%;animation-delay:.9s}.steam i:nth-child(3){left:55%;animation-delay:1.8s}
+@keyframes steam{0%{transform:translateY(0) scale(.6);opacity:0}25%{opacity:.8}100%{transform:translateY(-120%) scale(1.3) translateX(4px);opacity:0}}
+/* resting: calm life, dim screen */
+.hero[data-pose="rest"][data-state="idle"] .bull{animation:breathe 3.6s ease-in-out infinite}
+.hero[data-pose="rest"] .lid{opacity:.15;animation:none}
+.hero[data-pose="rest"] .screen{opacity:.45;filter:saturate(.6)}
+.hero[data-pose="rest"] .code-in{animation-duration:14s}
+.hero[data-pose="rest"] .candles g{animation-duration:12s}
+.hero[data-pose="rest"] .sparks i{animation-duration:4s}
+.hero[data-pose="rest"] .prog i{animation-duration:4.5s;opacity:.5}
+.screen{transition:opacity .3s,filter .3s}

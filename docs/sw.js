@@ -1,8 +1,8 @@
 // Bull Planner service worker. Network-first for everything same-origin
 // (so a new deploy always shows up), cache as offline fallback only.
-const CACHE = "bull-v8";
+const CACHE = "bull-v9";
 const SHELL = ["./", "./index.html", "./manifest.json", "./css/app.css", "./js/app.js",
-  "./fonts/outfit-latin-wght-normal.woff2", "./img/bull-laptop.jpg",
+  "./fonts/outfit-latin-wght-normal.woff2", "./img/bull-laptop.jpg", "./img/bull-rest.jpg",
   "./icons/icon-192.png", "./icons/icon-512.png", "./icons/icon-maskable-512.png", "./icons/apple-touch-icon.png"];
 
 self.addEventListener("install", function (e) {
@@ -22,6 +22,7 @@ self.addEventListener("fetch", function (e) {
   if (req.method !== "GET") return;
   var url = new URL(req.url);
   if (url.origin !== location.origin) return;
+  if (/\.(mp4|webm)$/.test(url.pathname)) return; // iOS plays video with byte-range requests
   e.respondWith(fetch(req, { cache: "no-cache" }).then(function (r) {
     if (r.ok) { var cp = r.clone(); caches.open(CACHE).then(function (c) { return c.put(req, cp); }); }
     return r;
