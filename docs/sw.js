@@ -1,23 +1,13 @@
-// Bull Planner service worker. Bump CACHE when a shell file changes.
-// Pages and shell: network-first for the page, cache-first for versioned assets.
-const CACHE = "bull-v7";
-const SHELL = [
-  "./",
-  "./index.html",
-  "./manifest.json",
-  "./css/app.css",
-  "./js/app.js",
-  "./fonts/outfit-latin-wght-normal.woff2",
-  "./img/bull-laptop.jpg",
-  "./icons/icon-192.png",
-  "./icons/icon-512.png",
-  "./icons/icon-maskable-512.png",
-  "./icons/apple-touch-icon.png"
-];
+// Bull Planner service worker. Network-first for everything same-origin
+// (so a new deploy always shows up), cache as offline fallback only.
+const CACHE = "bull-v8";
+const SHELL = ["./", "./index.html", "./manifest.json", "./css/app.css", "./js/app.js",
+  "./fonts/outfit-latin-wght-normal.woff2", "./img/bull-laptop.jpg",
+  "./icons/icon-192.png", "./icons/icon-512.png", "./icons/icon-maskable-512.png", "./icons/apple-touch-icon.png"];
 
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) {
-    return Promise.all(SHELL.map(function (u) { return c.add(u).catch(function () {}); }));
+    return Promise.all(SHELL.map(function (u) { return fetch(new Request(u, { cache: "reload" })).then(function (r) { if (r.ok) return c.put(u, r); }).catch(function () {}); }));
   }).then(function () { return self.skipWaiting(); }));
 });
 
@@ -32,25 +22,10 @@ self.addEventListener("fetch", function (e) {
   if (req.method !== "GET") return;
   var url = new URL(req.url);
   if (url.origin !== location.origin) return;
-
-  if (req.mode === "navigate" || url.pathname.endsWith("/index.html") || url.pathname.endsWith("/")) {
-    e.respondWith(fetch(req).then(function (r) {
-      if (r.ok) {
-        var cp = r.clone();
-        caches.open(CACHE).then(function (c) { return c.put("./index.html", cp); });
-      }
-      return r;
-    }).catch(function () { return caches.match("./index.html"); }));
-    return;
-  }
-
-  e.respondWith(caches.match(req, { ignoreSearch: true }).then(function (hit) {
-    return hit || fetch(req).then(function (r) {
-      if (r.ok) {
-        var cp = r.clone();
-        caches.open(CACHE).then(function (c) { return c.put(req, cp); });
-      }
-      return r;
-    });
+  e.respondWith(fetch(req, { cache: "no-cache" }).then(function (r) {
+    if (r.ok) { var cp = r.clone(); caches.open(CACHE).then(function (c) { return c.put(req, cp); }); }
+    return r;
+  }).catch(function () {
+    return caches.match(req, { ignoreSearch: true }).then(function (hit) { return hit || caches.match("./index.html"); });
   }));
 });
