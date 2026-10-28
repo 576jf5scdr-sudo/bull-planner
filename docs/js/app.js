@@ -106,12 +106,13 @@
     if (verdict !== "AVOID" && p > 0) {
       var hot = c1 > 50;
       var e1 = hot ? p * 0.8 : p * 0.95, e2 = hot ? p * 0.65 : p * 0.85;
+      e1 = Math.min(e1, p); e2 = Math.min(e2, e1); // entries never above the live price
       var avg = (e1 + e2) / 2;
       var sl = e2 * (risk >= 3 ? 0.85 : 0.8);
       if (sl < avg * 0.7) sl = avg * 0.7;
       if (sl > avg * 0.92) sl = avg * 0.92;
       var m = risk >= 3 ? [0.2, 0.45, 0.9] : risk >= 1 ? [0.3, 0.7, 1.5] : [0.4, 1.0, 2.5];
-      lv = { e1: e1, e2: e2, avg: avg, sl: sl, m: m, hot: hot,
+      lv = { price: p, e1: e1, e2: e2, avg: avg, sl: sl, m: m, hot: hot,
         tp: [avg * (1 + m[0]), avg * (1 + m[1]), avg * (1 + m[2])], sell: [50, 30, 20] };
     }
     return { verdict: verdict, cls: cls, why: why, checks: checks, hard: hard.concat(danger.map(function (r) { return r.d || r.n; })), lv: lv, risk: risk };
@@ -130,7 +131,7 @@
     if (a.lv) {
       var L = a.lv, row = function (c, t, sub, v) { return '<div class="row" style="--c:' + c + '"><div><small>' + t + '</small><span>' + sub + '</span></div><b>' + v + '</b></div>'; };
       h += '<div class="lv"><h2>The plan</h2>';
-      h += row(BLUE, "BUY ZONE", L.hot ? "Pumped hard: wait for a 20–35% dip" : "Buy on a 5–15% dip, split in two", fp(L.e1) + "<br>" + fp(L.e2));
+      h += row(BLUE, "BUY ZONE", "Price now <strong>" + fp(L.price) + "</strong> · " + (L.hot ? "pumped hard: wait for a 20–35% dip" : "buy a 5–15% dip, split in two") + " (−" + Math.round((1 - L.e1 / L.price) * 100) + "% / −" + Math.round((1 - L.e2 / L.price) * 100) + "%)", fp(L.e1) + "<br>" + fp(L.e2));
       for (var i = 0; i < 3; i++) h += row(GREEN, "TAKE PROFIT " + (i + 1), "+" + Math.round(L.m[i] * 100) + "% · sell " + L.sell[i] + "%", fp(L.tp[i]));
       h += row(RED, "STOP-LOSS", "−" + Math.round((1 - L.sl / L.avg) * 100) + "% from your average · sell all", fp(L.sl));
       h += '<p class="hint">No swing high/low from the APIs, so levels use the % rules. Set TP and stop the moment you buy.</p></div>';
