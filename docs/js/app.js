@@ -167,12 +167,20 @@
     }
     g.innerHTML = c;
   })();
+  function popCoin() {
+    if (scanning || hero.getAttribute("data-state") !== "idle" || document.hidden) return;
+    var co = $("coins"), i = document.createElement("i");
+    i.textContent = Math.random() > .5 ? "🪙" : "✨"; i.style.left = (10 + Math.random() * 40).toFixed(0) + "%";
+    co.appendChild(i); setTimeout(function () { if (i.parentNode) i.parentNode.removeChild(i); }, 2000);
+  }
+  setInterval(popCoin, 3500);
   function setHero(state, text) { hero.setAttribute("data-state", state); if (text != null) statusEl.textContent = text; }
   function codeLines(mint) {
     var m = mint.slice(0, 6) + "…" + mint.slice(-4), L = ["> connect solana-mainnet", "> dexscreener.tokens(" + m + ")", "  pairs: scanning liquidity…", "> rugcheck.report(" + m + ")", "  mint_authority … ?", "  freeze_authority … ?", "  lp_locked … ?", "  top_holders[10] … ?", "> fib.levels(price)", "> risk.score()", "  buys/sells 1h …", "> plan.entries / tp / sl"];
     var h = L.map(function (l) { return "<div>" + esc(l) + "</div>"; }).join("");
     $("code").innerHTML = h + h;
   }
+  codeLines("So11111111111111111111111111111111111111112");
   function startScan(mint) {
     scanning = true; clearTimeout(typeTimer); codeLines(mint);
     var msgs = ["scanning…", "reading the pool…", "checking authorities…", "counting whales…", "measuring buy pressure…", "drawing your levels…"], i = 0;
@@ -184,7 +192,8 @@
     if (!verdict) { setHero("bad", "couldn't scan"); return; }
     var st = verdict === "WORTH A LOOK" ? "good" : verdict === "RISKY" ? "risk" : "bad";
     setHero(st, verdict === "WORTH A LOOK" ? "✦ worth a look ✦" : verdict === "RISKY" ? "risky · careful" : "avoid · don't buy");
-    if (st === "good" && !RM) {
+    setTimeout(function () { if (!scanning) hero.setAttribute("data-state", "idle"); }, 3200);
+    if (st === "good") {
       var co = $("coins"), h = "";
       for (var i = 0; i < 12; i++) h += '<i style="left:' + (8 + Math.random() * 84).toFixed(0) + '%;animation-delay:' + (Math.random() * 0.6).toFixed(2) + 's">' + (i % 3 ? "🪙" : "✨") + '</i>';
       co.innerHTML = h; setTimeout(function () { co.innerHTML = ""; }, 2600);
