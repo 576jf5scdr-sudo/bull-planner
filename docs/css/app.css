@@ -3,12 +3,6 @@
 html,body{margin:0;background:#EFEEE9;color:#111;font-family:Outfit,-apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
 button,input{font-family:inherit}
 .wrap{max-width:520px;margin:0 auto;padding:calc(env(safe-area-inset-top) + 12px) 12px calc(env(safe-area-inset-bottom) + 24px);display:flex;flex-direction:column;gap:12px}
-.hero{position:relative;display:flex;align-items:center;gap:12px;background:#0b0b0b radial-gradient(circle at 20% 30%,rgba(255,106,26,.28),transparent 60%);border-radius:22px;padding:10px 14px 10px 8px;color:#fff;overflow:hidden}
-.hero img{width:92px;height:92px;object-fit:cover;border-radius:16px;filter:drop-shadow(0 0 16px rgba(255,106,26,.45))}
-.hero h1{margin:0;font-size:22px;font-weight:800;letter-spacing:-.02em}
-.hero p{margin:2px 0 6px;font-size:13px;color:#cfcfca;line-height:1.3}
-.tag{display:inline-block;background:#FF6A1A;color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:999px;letter-spacing:.04em}
-.chat{position:absolute;top:10px;right:10px;background:rgba(255,255,255,.12);color:#fff;text-decoration:none;font-size:12px;font-weight:700;padding:5px 10px;border-radius:999px}
 .card{background:#fff;border-radius:20px;padding:14px;box-shadow:0 1px 2px rgba(0,0,0,.06)}
 label{display:block;font-size:11px;font-weight:800;color:#8B8B86;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
 input{width:100%;font-size:17px;padding:15px 14px;border:1.5px solid #DDDCD6;border-radius:14px;background:#F5F4F0;color:#111;outline:none;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
@@ -50,3 +44,84 @@ h2{margin:0 0 8px;font-size:17px}
 .links{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 .links a{font-size:12px;font-weight:700;color:#111;background:#F5F4F0;padding:6px 10px;border-radius:999px;text-decoration:none}
 .foot{text-align:center;font-size:11px;color:#8B8B86}
+
+/* ---------- hero: bull at the laptop ---------- */
+.hero{position:relative;height:210px;border-radius:24px;overflow:hidden;color:#fff;background:#07060a;isolation:isolate;box-shadow:0 10px 30px rgba(20,8,0,.25)}
+.h-bg{position:absolute;inset:0;z-index:0}
+.rays{position:absolute;left:-30%;top:-60%;width:120%;height:220%;background:repeating-conic-gradient(from 0deg at 50% 50%,rgba(255,140,40,.10) 0deg 6deg,transparent 6deg 18deg);animation:spin 40s linear infinite;mask:radial-gradient(circle at 50% 50%,#000 10%,transparent 60%);-webkit-mask:radial-gradient(circle at 50% 50%,#000 10%,transparent 60%)}
+.aura{position:absolute;inset:0;background:radial-gradient(circle at 26% 62%,rgba(255,106,26,.45),transparent 42%),radial-gradient(circle at 85% 10%,rgba(140,80,255,.28),transparent 45%),radial-gradient(circle at 70% 95%,rgba(40,180,255,.18),transparent 40%);animation:hue 9s ease-in-out infinite alternate}
+.stars i{position:absolute;bottom:-6px;width:3px;height:3px;border-radius:50%;background:#ffd9a8;box-shadow:0 0 6px 2px rgba(255,180,90,.7);opacity:0;animation:float var(--d,7s) linear var(--w,0s) infinite}
+.bull{position:absolute;left:-6px;bottom:-14px;width:205px;height:205px;z-index:2;transform-origin:50% 90%;animation:breathe 3.6s ease-in-out infinite}
+.bull img{width:100%;height:100%;object-fit:cover;-webkit-mask:radial-gradient(circle at 50% 52%,#000 56%,transparent 71%);mask:radial-gradient(circle at 50% 52%,#000 56%,transparent 71%)}
+.lid{position:absolute;left:11%;top:58%;width:44%;height:29%;border-radius:6px;transform:skewY(4deg);background:radial-gradient(circle at 50% 50%,rgba(255,150,60,.0),transparent);mix-blend-mode:screen;transition:background .3s}
+.sparks i{position:absolute;width:6px;height:6px;opacity:0;background:radial-gradient(circle,#fff 0,#ffcc66 40%,transparent 70%);border-radius:50%}
+.sparks i:nth-child(1){left:20%;top:52%}.sparks i:nth-child(2){left:42%;top:48%}.sparks i:nth-child(3){left:58%;top:60%}.sparks i:nth-child(4){left:12%;top:70%}.sparks i:nth-child(5){left:50%;top:40%}
+.holo{position:absolute;right:10px;top:12px;bottom:12px;width:calc(100% - 200px);min-width:140px;z-index:3;display:flex;flex-direction:column;gap:6px}
+.h-top{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.h-top b{font-size:20px;font-weight:900;letter-spacing:-.02em;background:linear-gradient(90deg,#fff,#ffd29a,#fff);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 5s linear infinite}
+.tag{display:inline-block;background:#FF6A1A;color:#fff;font-size:9px;font-weight:800;padding:3px 7px;border-radius:999px;letter-spacing:.06em}
+.screen{position:relative;flex:1;border-radius:12px;overflow:hidden;background:linear-gradient(160deg,rgba(255,255,255,.08),rgba(255,255,255,.02));border:1px solid rgba(255,190,120,.28);box-shadow:inset 0 0 18px rgba(255,120,40,.15),0 0 14px rgba(255,120,40,.12);backdrop-filter:blur(2px)}
+.screen::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.04) 0 1px,transparent 1px 3px);pointer-events:none}
+.idle-t{position:absolute;inset:0;display:flex;align-items:center;padding:10px;font-size:13px;line-height:1.35;color:#ffe2c4;transition:opacity .3s}
+.candles{position:absolute;left:0;right:0;bottom:0;height:55%;width:100%;opacity:0;transition:opacity .3s}
+.code{position:absolute;inset:6px 8px 50% 8px;overflow:hidden;opacity:0;transition:opacity .3s;font:10px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;color:#9effc4}
+.code-in{animation:scroll 2.2s linear infinite}
+.status{font:700 11px ui-monospace,SFMono-Regular,Menlo,monospace;color:#ffcf9f;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prog{height:5px;border-radius:9px;background:rgba(255,255,255,.12);overflow:hidden}
+.prog i{display:block;height:100%;width:0;border-radius:9px;background:linear-gradient(90deg,#FF6A1A,#ffd27a,#FF6A1A);background-size:200% 100%}
+.burst{position:absolute;left:24%;top:55%;width:10px;height:10px;border-radius:50%;z-index:1;opacity:0;transform:translate(-50%,-50%)}
+.coins{position:absolute;inset:0;z-index:4;pointer-events:none}
+.coins i{position:absolute;bottom:-20px;font-style:normal;font-size:18px;animation:coin 1.8s ease-out forwards}
+.chat{position:absolute;top:10px;right:10px;z-index:5;background:rgba(255,255,255,.12);color:#fff;text-decoration:none;font-size:11px;font-weight:700;padding:4px 9px;border-radius:999px;backdrop-filter:blur(4px)}
+.hero .h-top{padding-right:48px}
+
+/* typing: quick bob */
+.hero[data-state="typing"] .bull{animation:bob .32s ease-in-out infinite}
+.hero[data-state="typing"] .lid{background:radial-gradient(circle at 50% 50%,rgba(255,150,60,.35),transparent 70%)}
+/* scanning */
+.hero[data-state="scan"] .bull{animation:bob .26s ease-in-out infinite}
+.hero[data-state="scan"] .lid{animation:lid .5s ease-in-out infinite alternate}
+.hero[data-state="scan"] .sparks i{animation:spark 1.1s ease-out infinite}
+.hero[data-state="scan"] .sparks i:nth-child(2){animation-delay:.2s}.hero[data-state="scan"] .sparks i:nth-child(3){animation-delay:.45s}.hero[data-state="scan"] .sparks i:nth-child(4){animation-delay:.7s}.hero[data-state="scan"] .sparks i:nth-child(5){animation-delay:.9s}
+.hero[data-state="scan"] .idle-t{opacity:0}
+.hero[data-state="scan"] .code,.hero[data-state="scan"] .candles{opacity:1}
+.hero[data-state="scan"] .candles g{animation:slide 2s linear infinite}
+.hero[data-state="scan"] .prog i{width:100%;animation:shimmer 1s linear infinite,fill 1.6s ease-out}
+.hero[data-state="scan"] .rays{animation-duration:6s}
+.hero[data-state="scan"] .stars i{animation-duration:2.6s}
+/* verdicts */
+.hero[data-state="good"] .bull{animation:jump .7s cubic-bezier(.3,1.6,.5,1) 2}
+.hero[data-state="good"] .burst{animation:burst .9s ease-out forwards;background:radial-gradient(circle,rgba(61,220,132,.9),rgba(61,220,132,0) 70%)}
+.hero[data-state="good"] .aura{background:radial-gradient(circle at 26% 62%,rgba(61,220,132,.5),transparent 45%),radial-gradient(circle at 85% 10%,rgba(255,210,90,.3),transparent 45%)}
+.hero[data-state="risk"] .bull{animation:wobble .9s ease-in-out 2}
+.hero[data-state="risk"] .burst{animation:burst .9s ease-out forwards;background:radial-gradient(circle,rgba(255,140,30,.85),rgba(255,140,30,0) 70%)}
+.hero[data-state="bad"] .bull{animation:shake .5s ease-in-out 3}
+.hero[data-state="bad"] .burst{animation:burst .9s ease-out forwards;background:radial-gradient(circle,rgba(229,72,77,.9),rgba(229,72,77,0) 70%)}
+.hero[data-state="bad"] .aura{background:radial-gradient(circle at 26% 62%,rgba(229,72,77,.5),transparent 45%),radial-gradient(circle at 85% 10%,rgba(120,0,40,.35),transparent 45%)}
+.hero[data-state="good"] .prog i,.hero[data-state="risk"] .prog i,.hero[data-state="bad"] .prog i{width:100%}
+.hero[data-state="good"] .prog i{background:#3DDC84}.hero[data-state="risk"] .prog i{background:#FF8A2A}.hero[data-state="bad"] .prog i{background:#E5484D}
+.hero[data-state="good"] .status{color:#7dffb5}.hero[data-state="bad"] .status{color:#ff8a8f}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes hue{to{filter:hue-rotate(25deg) brightness(1.15)}}
+@keyframes float{0%{transform:translateY(0) scale(.6);opacity:0}15%{opacity:.9}100%{transform:translateY(-230px) translateX(var(--x,10px)) scale(1);opacity:0}}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.025) translateY(-2px)}}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-3px) rotate(-1deg)}}
+@keyframes lid{from{background:radial-gradient(circle at 50% 50%,rgba(255,170,70,.25),transparent 70%)}to{background:radial-gradient(circle at 50% 50%,rgba(255,200,110,.6),transparent 75%)}}
+@keyframes spark{0%{opacity:0;transform:scale(.3) translate(0,0)}30%{opacity:1}100%{opacity:0;transform:scale(1.6) translate(10px,-34px)}}
+@keyframes scroll{from{transform:translateY(0)}to{transform:translateY(-50%)}}
+@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50px)}}
+@keyframes shimmer{from{background-position:200% 0}to{background-position:0 0}}
+@keyframes fill{from{width:0}to{width:100%}}
+@keyframes shine{from{background-position:200% 0}to{background-position:0 0}}
+@keyframes jump{0%,100%{transform:translateY(0)}40%{transform:translateY(-22px) scale(1.04)}}
+@keyframes wobble{0%,100%{transform:rotate(0)}25%{transform:rotate(-5deg)}75%{transform:rotate(5deg)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
+@keyframes burst{0%{opacity:.95;width:10px;height:10px}100%{opacity:0;width:420px;height:420px}}
+@keyframes coin{0%{transform:translateY(0) rotate(0);opacity:0}15%{opacity:1}100%{transform:translateY(-230px) rotate(360deg);opacity:0}}
+@media (max-width:360px){.bull{width:170px;height:170px}.holo{width:calc(100% - 165px)}.h-top b{font-size:17px}}
+@media (prefers-reduced-motion:reduce){.hero *,.hero{animation:none!important;transition:none!important}.stars,.coins{display:none}.hero[data-state="scan"] .prog i{width:70%}}
+.code div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hero[data-state="good"] .idle-t,.hero[data-state="risk"] .idle-t,.hero[data-state="bad"] .idle-t{opacity:0}
+.hero[data-state="good"] .candles,.hero[data-state="risk"] .candles,.hero[data-state="bad"] .candles{opacity:1}
+.hero[data-state="bad"] .candles{filter:hue-rotate(-120deg) saturate(1.4)}

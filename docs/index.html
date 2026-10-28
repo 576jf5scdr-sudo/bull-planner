@@ -15,17 +15,29 @@
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="preload" href="fonts/outfit-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/app.css?v=5">
+<link rel="stylesheet" href="css/app.css?v=6">
 </head>
 <body>
 <main class="wrap">
-  <section class="hero">
-    <img src="img/hero.jpg" alt="Bull mascot">
-    <div class="hero-t">
-      <h1>Bull Planner</h1>
-      <p>Paste a token. Bull checks it and tells you if it's worth buying.</p>
-      <span class="tag">SOLANA · MEMECOINS</span>
+  <section class="hero" id="hero" data-state="idle">
+    <div class="h-bg" aria-hidden="true"><div class="rays"></div><div class="aura"></div><div class="stars" id="stars"></div></div>
+    <div class="bull" aria-hidden="true">
+      <img src="img/bull-laptop.jpg" alt="">
+      <div class="lid"></div>
+      <div class="sparks"><i></i><i></i><i></i><i></i><i></i></div>
     </div>
+    <div class="holo" aria-live="polite">
+      <div class="h-top"><b>Bull Planner</b><span class="tag">SOLANA</span></div>
+      <div class="screen">
+        <div class="idle-t">Paste a token address.<br>I'll scan it for you.</div>
+        <svg class="candles" viewBox="0 0 100 40" preserveAspectRatio="none"><g></g></svg>
+        <div class="code"><div class="code-in" id="code"></div></div>
+      </div>
+      <div class="status" id="status">ready</div>
+      <div class="prog"><i></i></div>
+    </div>
+    <div class="burst" aria-hidden="true"></div>
+    <div class="coins" id="coins" aria-hidden="true"></div>
     <a class="chat" href="grokbot://app/v1/agent?id=a1decb0a-13b3-4449-a9af-72317bdd93c3">Chat</a>
   </section>
 
@@ -39,6 +51,6 @@
   <section id="out"></section>
   <p class="foot">Not financial advice. Data: DexScreener, RugCheck.</p>
 </main>
-<script src="js/app.js?v=5"></script>
+<script src="js/app.js?v=6"></script>
 </body>
 </html>

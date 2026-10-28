@@ -149,19 +149,68 @@
     $("out").innerHTML = h;
   }
 
+
+  // ---------- hero animation ----------
+  var hero = $("hero"), statusEl = $("status"), RM = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var stTimer = 0, typeTimer = 0, scanning = false;
+  (function initFx() {
+    var st = $("stars"), h = "";
+    for (var i = 0; i < 16; i++) h += '<i style="left:' + (Math.random() * 100).toFixed(1) + '%;--d:' + (5 + Math.random() * 6).toFixed(1) + 's;--w:' + (-Math.random() * 8).toFixed(1) + 's;--x:' + (Math.random() * 40 - 20).toFixed(0) + 'px"></i>';
+    st.innerHTML = h;
+    var g = hero.querySelector(".candles g"), c = "", y = 22;
+    for (var k = 0; k < 40; k++) {
+      var up = Math.random() > 0.42, b = 3 + Math.random() * 9, ny = Math.max(4, Math.min(34, y + (up ? -b : b) * 0.6));
+      var top = Math.min(y, ny), hgt = Math.max(1.5, Math.abs(ny - y)), x = k * 5 + 1;
+      c += '<line x1="' + (x + 1.5) + '" x2="' + (x + 1.5) + '" y1="' + (top - 2) + '" y2="' + (top + hgt + 2) + '" stroke="' + (up ? "#3DDC84" : "#ff6b6f") + '" stroke-width=".5"/>';
+      c += '<rect x="' + x + '" y="' + top + '" width="3" height="' + hgt + '" fill="' + (up ? "#3DDC84" : "#ff6b6f") + '"/>';
+      y = ny;
+    }
+    g.innerHTML = c;
+  })();
+  function setHero(state, text) { hero.setAttribute("data-state", state); if (text != null) statusEl.textContent = text; }
+  function codeLines(mint) {
+    var m = mint.slice(0, 6) + "…" + mint.slice(-4), L = ["> connect solana-mainnet", "> dexscreener.tokens(" + m + ")", "  pairs: scanning liquidity…", "> rugcheck.report(" + m + ")", "  mint_authority … ?", "  freeze_authority … ?", "  lp_locked … ?", "  top_holders[10] … ?", "> fib.levels(price)", "> risk.score()", "  buys/sells 1h …", "> plan.entries / tp / sl"];
+    var h = L.map(function (l) { return "<div>" + esc(l) + "</div>"; }).join("");
+    $("code").innerHTML = h + h;
+  }
+  function startScan(mint) {
+    scanning = true; clearTimeout(typeTimer); codeLines(mint);
+    var msgs = ["scanning…", "reading the pool…", "checking authorities…", "counting whales…", "measuring buy pressure…", "drawing your levels…"], i = 0;
+    setHero("scan", msgs[0]); clearInterval(stTimer);
+    stTimer = setInterval(function () { i = (i + 1) % msgs.length; statusEl.textContent = msgs[i]; }, 450);
+  }
+  function endScan(verdict) {
+    scanning = false; clearInterval(stTimer);
+    if (!verdict) { setHero("bad", "couldn't scan"); return; }
+    var st = verdict === "WORTH A LOOK" ? "good" : verdict === "RISKY" ? "risk" : "bad";
+    setHero(st, verdict === "WORTH A LOOK" ? "✦ worth a look ✦" : verdict === "RISKY" ? "risky · careful" : "avoid · don't buy");
+    if (st === "good" && !RM) {
+      var co = $("coins"), h = "";
+      for (var i = 0; i < 12; i++) h += '<i style="left:' + (8 + Math.random() * 84).toFixed(0) + '%;animation-delay:' + (Math.random() * 0.6).toFixed(2) + 's">' + (i % 3 ? "🪙" : "✨") + '</i>';
+      co.innerHTML = h; setTimeout(function () { co.innerHTML = ""; }, 2600);
+    }
+  }
+  $("mint").addEventListener("input", function () {
+    if (scanning) return;
+    setHero("typing", "reading address…"); clearTimeout(typeTimer);
+    typeTimer = setTimeout(function () { if (!scanning) setHero("idle", isMint($("mint").value.trim()) ? "ready · tap Analyse" : "ready"); }, 900);
+  });
+
   function run() {
     var mint = $("mint").value.trim().replace(/^.*\/(?=[1-9A-HJ-NP-Za-km-z]{32,44}$)/, "");
     var msg = $("msg"); msg.className = "msg";
     if (!isMint(mint)) { msg.textContent = "That doesn't look like a Solana token address."; msg.className = "msg err"; return; }
     $("mint").value = mint;
     $("go").disabled = true; $("go").textContent = "Analysing…"; msg.textContent = "Checking DexScreener and RugCheck…"; $("out").innerHTML = "";
-    Promise.all([loadDex(mint).catch(function (e) { return { err: e }; }), loadRug(mint)]).then(function (res) {
+    startScan(mint);
+    var minWait = new Promise(function (ok) { setTimeout(ok, RM ? 0 : 1600); });
+    Promise.all([loadDex(mint).catch(function (e) { return { err: e }; }), loadRug(mint), minWait]).then(function (res) {
       var x = res[0], rc = res[1];
-      if (!x || x.err) { msg.textContent = x && x.err ? "Couldn't reach DexScreener (" + (x.err.message || "network") + "). Try again." : "No Solana trading pair found for this address."; msg.className = "msg err"; return; }
+      if (!x || x.err) { endScan(null); msg.textContent = x && x.err ? "Couldn't reach DexScreener (" + (x.err.message || "network") + "). Try again." : "No Solana trading pair found for this address."; msg.className = "msg err"; return; }
       msg.textContent = rc ? (rc.full ? "" : "Partial safety data (RugCheck summary only).") : "Safety check unavailable (RugCheck didn't answer).";
-      render(mint, x, rc, analyse(x, rc));
+      var a = analyse(x, rc); render(mint, x, rc, a); endScan(a.verdict);
       try { localStorage.setItem("bull_last_mint", mint); } catch (e) {}
-    }).then(function () { $("go").disabled = false; $("go").textContent = "Analyse"; });
+    }).catch(function (e) { endScan(null); msg.textContent = "Something went wrong: " + (e && e.message ? e.message : e); msg.className = "msg err"; }).then(function () { $("go").disabled = false; $("go").textContent = "Analyse"; });
   }
 
   $("go").addEventListener("click", run);
