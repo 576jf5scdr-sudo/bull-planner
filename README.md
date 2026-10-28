@@ -1,4 +1,3 @@
 # Bull Planner
-Memecoin entry & exit planner web app. GitHub Pages serves `docs/` from `master`.
-- `src/` React/TS source; build: `esbuild src/main.tsx --bundle --minify --format=iife --jsx=automatic --target=es2019 --define:process.env.NODE_ENV='"production"' --outfile=docs/app.js` (needs node_modules with react, react-dom, esbuild).
-- `docs/picks.json` is refreshed by `/workspace/memecoin-scout/make_planner_app.py` (commit + push).
+One-screen Solana memecoin checker. Paste a token address → DexScreener + RugCheck → verdict, buy zone, TP1-3, stop-loss.
+Plain HTML/CSS/JS in `docs/` (no build). GitHub Pages serves `docs/` from `master`. Bump `CACHE` in `docs/sw.js` and the `?v=` in `index.html` on every change.

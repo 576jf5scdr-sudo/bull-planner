@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Bull Planner</title>
-<meta name="description" content="Memecoin entry and exit planner: scanner picks, smart entries and exits, trade journal.">
+<meta name="description" content="Paste a Solana token address: Bull checks safety and tells you if it's worth buying, with entry, take-profits and stop-loss.">
 <meta name="theme-color" content="#111111">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -15,16 +15,30 @@
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="preload" href="fonts/outfit-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<style>
-@font-face{font-family:"Outfit";src:url(fonts/outfit-latin-wght-normal.woff2) format("woff2");font-weight:100 900;font-display:swap}
-button,input,select,textarea{font-family:inherit}
-html,body{margin:0;background:#EFEEE9;font-family:Outfit,-apple-system,BlinkMacSystemFont,system-ui,sans-serif}
-body{padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);-webkit-tap-highlight-color:transparent}
-.boot{font-family:Outfit,system-ui,sans-serif;text-align:center;color:#8B8B86;padding-top:40vh}
-</style>
+<link rel="stylesheet" href="css/app.css?v=3">
 </head>
 <body>
-<div id="app"><p class="boot">Opening Bull Planner…</p></div>
-<script src="app.js"></script>
+<main class="wrap">
+  <section class="hero">
+    <img src="img/hero.jpg" alt="Bull mascot">
+    <div class="hero-t">
+      <h1>Bull Planner</h1>
+      <p>Paste a token. Bull checks it and tells you if it's worth buying.</p>
+      <span class="tag">SOLANA · MEMECOINS</span>
+    </div>
+    <a class="chat" href="grokbot://app/v1/agent?id=a1decb0a-13b3-4449-a9af-72317bdd93c3">Chat</a>
+  </section>
+
+  <section class="card">
+    <label for="mint">Token address</label>
+    <input id="mint" type="text" inputmode="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Paste the Solana token address">
+    <button id="go" class="go">Analyse</button>
+    <p id="msg" class="msg"></p>
+  </section>
+
+  <section id="out"></section>
+  <p class="foot">Not financial advice. Data: DexScreener, RugCheck.</p>
+</main>
+<script src="js/app.js?v=3"></script>
 </body>
 </html>

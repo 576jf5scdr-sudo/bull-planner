@@ -1,14 +1,14 @@
 // Bull Planner service worker. Bump CACHE when a shell file changes.
-// picks.json is network-first so the phone sees new scanner picks.
-const CACHE = "bull-v2";
+// Pages and shell: network-first for the page, cache-first for versioned assets.
+const CACHE = "bull-v3";
 const SHELL = [
   "./",
   "./index.html",
   "./manifest.json",
-  
-  "./app.js",
+  "./css/app.css",
+  "./js/app.js",
   "./fonts/outfit-latin-wght-normal.woff2",
-  "./img/hero.jpg", "./img/stop.jpg", "./img/tp.jpg", "./img/scout.jpg", "./picks.json",
+  "./img/hero.jpg", "./img/stop.jpg", "./img/tp.jpg", "./img/scout.jpg",
   "./icons/icon-192.png",
   "./icons/icon-512.png",
   "./icons/icon-maskable-512.png",
@@ -32,17 +32,6 @@ self.addEventListener("fetch", function (e) {
   if (req.method !== "GET") return;
   var url = new URL(req.url);
   if (url.origin !== location.origin) return;
-
-  if (url.pathname.endsWith("/picks.json")) {
-    e.respondWith(fetch(req).then(function (r) {
-      if (r.ok) {
-        var cp = r.clone();
-        caches.open(CACHE).then(function (c) { return c.put(url.pathname, cp); });
-      }
-      return r;
-    }).catch(function () { return caches.match(url.pathname); }));
-    return;
-  }
 
   if (req.mode === "navigate" || url.pathname.endsWith("/index.html") || url.pathname.endsWith("/")) {
     e.respondWith(fetch(req).then(function (r) {
