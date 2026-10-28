@@ -1,0 +1,1 @@
+{"compilerOptions":{"strict":true,"jsx":"react-jsx","noEmit":true,"target":"es2020","module":"esnext","moduleResolution":"node","lib":["dom","es2020"],"skipLibCheck":true},"include":["src"]}
