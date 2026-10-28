@@ -1,6 +1,6 @@
 // Bull Planner service worker. Bump CACHE when a shell file changes.
 // Pages and shell: network-first for the page, cache-first for versioned assets.
-const CACHE = "bull-v4";
+const CACHE = "bull-v5";
 const SHELL = [
   "./",
   "./index.html",
