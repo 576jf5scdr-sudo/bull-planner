@@ -1,6 +1,6 @@
 // Bull Planner service worker. Bump CACHE when a shell file changes.
 // picks.json is network-first so the phone sees new scanner picks.
-const CACHE = "bull-v1";
+const CACHE = "bull-v2";
 const SHELL = [
   "./",
   "./index.html",
